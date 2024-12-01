@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ModalComponent = () => {
+const ModalComponent = ({ closeModal }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleModal = (open) => {
@@ -9,18 +9,10 @@ const ModalComponent = () => {
 
     return (
         <div>
-            {/* Button to open modal */}
-            <div className="w-full flex justify-center py-12">
-                <button
-                    className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 mx-auto transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-4 sm:px-8 py-2 text-xs sm:text-sm"
-                    onClick={() => handleModal(true)}
-                >
-                    Open Modal
-                </button>
-            </div>
+            
 
             {/* Modal */}
-            {isModalOpen && (
+            { (
                 <div class="py-12 bg-gray-700 bg-opacity-50 transition-opacity duration-150 ease-in-out z-10 fixed inset-0 flex items-center justify-center">
                     <div class="container mx-auto w-11/12 md:w-2/3 max-w-3xl h-auto max-h-screen overflow-y-auto">
                         <div class="relative py-8 px-10 bg-white shadow-md rounded border border-gray-400">
@@ -88,7 +80,7 @@ const ModalComponent = () => {
                                 <button class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">
                                     Guardar
                                 </button>
-                                <button onClick={() => handleModal(false)}
+                                <button  onClick={closeModal}
                                 class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm">
                                     Cancelar
                                 </button>
