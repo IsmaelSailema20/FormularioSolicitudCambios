@@ -1,12 +1,19 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { BrowserRouter, Route, Routes } from "react-router";
 import "./App.css";
+import Usuario from "./pages/Usuario";
 
 function App() {
-  const [count, setCount] = useState(0);
+  return (
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-100">
+        <Routes>
+          <Route path="/usuario" element={<Usuario />} />
 
-  return;
+          <Route path="*" element={<Usuario />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;
