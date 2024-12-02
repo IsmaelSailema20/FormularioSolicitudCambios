@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ModalFormulario from "./ModalFormulario";
+import ModalFormulario from "./ModalFormularioUsuario";
 
 function Table() {
   const [data, setData] = useState([]);
