@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL);
+/*error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
@@ -68,3 +68,23 @@ try {
     http_response_code(500);
     echo json_encode(["error" => $e->getMessage()]);
 }
+
+*/
+require_once 'conexion.php';
+header("Access-Control-Allow-Origin: http://localhost:5173"); // Permitir solicitudes desde localhost:5173
+header("Access-Control-Allow-Methods: POST, OPTIONS"); // Métodos permitidos
+header("Access-Control-Allow-Headers: Content-Type");
+$objetoConexion = new Conexion;
+$conn = $objetoConexion->conectar();
+$fecha = $_POST['fecha'];
+$nombreSolicitante = $_POST['nombreSolicitante'];
+$dependencia = $_POST['dependencia'];
+$tipoCambio = $_POST['cambio'];
+$descripcion = $_POST['descripcion'];
+$email = $_POST['email'];
+$guardarEstudiante = "INSERT INTO cambios (ID_CAM, FEC_SOL, NOM_SOL, ARE_CAM,EMAIL_SOL, TIP_CAM, DES_CAM, FEC_RES, DES_EST_CAM, NOM_VAL, NOM_AUT, FIRMA, ESTD_SOL) VALUES (NULL, '$fecha', '$nombreSolicitante', '$dependencia','$email','$tipoCambio', '$descripcion', NULL, NULL, NULL, NULL, NULL, 'Enviado');";
+$result = $conn->prepare($guardarEstudiante);
+$result->execute();
+//print_r("se inserto correctamente");
+$dataJson = json_encode("Se inserto correctamente");
+print_r($dataJson);

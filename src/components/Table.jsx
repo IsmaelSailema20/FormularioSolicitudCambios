@@ -1,24 +1,31 @@
 import React, { useState, useEffect } from "react";
 import ModalFormulario from "./ModalFormularioUsuario";
 
-function Table() {
+function Table({ reload }) {
   const [data, setData] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8081/FormularioSolicitudCambios/src/models/obtenerInfoForm.php"
+      );
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8081/FormularioSolicitudCambios/src/models/obtenerInfoForm.php"
-        );
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
+    fetchData(); // Cargar datos cuando el componente se monta
   }, []);
+
+  useEffect(() => {
+    if (reload) {
+      fetchData(); // Recargar datos cuando `reload` cambia
+    }
+  }, [reload]);
 
   return (
     <div className="flex flex-wrap -mx-3 mb-5">
@@ -52,11 +59,17 @@ function Table() {
                   <thead className="align-bottom">
                     <tr className="font-semibold text-[0.95rem] text-secondary-dark">
                       <th className="pb-3 text-center min-w-[175px]">CÓDIGO</th>
-                      <th className="pb-3 text-center min-w-[200px]">SOLICITANTE</th>
-                      <th className="pb-3 text-center min-w-[300px]">DESCRIPCIÓN</th>
+                      <th className="pb-3 text-center min-w-[200px]">
+                        SOLICITANTE
+                      </th>
+                      <th className="pb-3 text-center min-w-[300px]">
+                        DESCRIPCIÓN
+                      </th>
                       <th className="pb-3 text-center min-w-[150px]">ESTADO</th>
                       <th className="pb-3 text-center min-w-[100px]">FECHA</th>
-                      <th className="pb-3 text-center min-w-[100px]">DETALLE</th>
+                      <th className="pb-3 text-center min-w-[100px]">
+                        DETALLE
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -139,6 +152,7 @@ function Table() {
       <ModalFormulario
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
+        onFormSubmit={fetchData}
       />
     </div>
   );
