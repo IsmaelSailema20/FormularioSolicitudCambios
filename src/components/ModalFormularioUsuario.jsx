@@ -37,7 +37,7 @@ const ModalFormularioUsuario = ({ isOpen, onClose }) => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
 
@@ -46,14 +46,31 @@ const ModalFormularioUsuario = ({ isOpen, onClose }) => {
       return;
     }
 
-    console.log(formData);
-    setErrors({});
-    setSubmitted(true);
+    try {
+      const response = await fetch("http://localhost:8081/FormularioSolicitudCambios/src/models/guardar.php", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    setTimeout(() => {
-      onClose();
-      setSubmitted(false);
-    }, 2000);
+      const result = await response.json();
+
+      if (result.error) {
+        setErrors({ general: result.error });
+      } else {
+        setErrors({});
+        setSubmitted(true);
+
+        setTimeout(() => {
+          onClose();
+          setSubmitted(false);
+        }, 2000);
+      }
+    } catch (error) {
+      setErrors({ general: 'Error al enviar la solicitud' });
+    }
   };
 
   if (!isOpen) return null;
@@ -290,5 +307,4 @@ ModalFormularioUsuario.propTypes = {
 };
 
 export default ModalFormularioUsuario;
-
 
