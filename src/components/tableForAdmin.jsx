@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import ModalComponent from "./modalAutorizar"; 
+import ModalComponent from "./modalAutorizar";
+
 const TableForAdmin = () => {
   const [data, setData] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para abrir o cerrar el modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCode, setSelectedCode] = useState(null); // Estado para almacenar el código seleccionado
 
-  const openModal = () => {
-    setIsModalOpen(true); 
+  const openModal = (id) => {
+    setIsModalOpen(id); // Guardar el ID del elemento seleccionado
   };
+  
 
   const closeModal = () => {
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
+    setSelectedCode(null); // Limpia el código seleccionado al cerrar el modal
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
         "http://localhost/FormularioSolicitudCambios/src/models/obtenerInfoForm.php"
-      ); 
+      );
       const result = await response.json();
       setData(result);
     };
@@ -52,7 +56,9 @@ const TableForAdmin = () => {
                       </th>
                       <th className="pb-3 text-center min-w-[150px]">ESTADO</th>
                       <th className="pb-3 text-center min-w-[100px]">FECHA</th>
-                      <th className="pb-3 text-center min-w-[100px]">DETALLE</th>
+                      <th className="pb-3 text-center min-w-[100px]">
+                        DETALLE
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -70,7 +76,7 @@ const TableForAdmin = () => {
                           <td className="p-3 pl-0">
                             {item.DES_CAM.length > 50
                               ? `${item.DES_CAM.substring(0, 80)}...`
-                              : item.DES_CAM}{" "}
+                              : item.DES_CAM}
                           </td>
                           <td className="p-3 pl-0">
                             <span
@@ -90,7 +96,7 @@ const TableForAdmin = () => {
                           <td className="p-3 pl-0">{item.FEC_SOL}</td>
                           <td className="p-3 pr-0 text-end">
                             <button
-                              onClick={openModal} // Abre el modal cuando se hace clic
+                              onClick={() => openModal(item.ID_CAM)} // Pasar ID_CAM al abrir el modal
                               className="ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center"
                             >
                               Revisar
@@ -101,7 +107,7 @@ const TableForAdmin = () => {
                     ) : (
                       <tr>
                         <td
-                          colSpan="5"
+                          colSpan="6"
                           className="p-3 text-center text-gray-500"
                         >
                           No hay datos disponibles
@@ -116,7 +122,9 @@ const TableForAdmin = () => {
         </div>
       </div>
 
-      {isModalOpen && <ModalComponent closeModal={closeModal} />} {/* Renderiza el modal cuando isModalOpen es true */}
+      {isModalOpen && (
+        <ModalComponent closeModal={closeModal} id={isModalOpen} />
+      )}
     </div>
   );
 };

@@ -10,7 +10,7 @@ class Conexion
     public function conectar()
     {
         try {
-            $conn = new PDO("mysql:host=" . $this->server . ";port=33065;dbname=" . $this->db, $this->user, $this->password);
+            $conn = new PDO("mysql:host=" . $this->server . ";dbname=" . $this->db, $this->user, $this->password);
             return $conn;
         } catch (Exception $e) {
             die("error al conectar: " . $e->getMessage());
