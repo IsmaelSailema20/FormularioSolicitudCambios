@@ -97,9 +97,9 @@ const TableForAdmin = () => {
                           <td className="p-3 pr-0 text-end">
                             <button
                               onClick={() => openModal(item.ID_CAM)} // Pasar ID_CAM al abrir el modal
-                              className="ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center"
+                              className="ml-10 relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center"
                             >
-                              Revisar
+                              \uD83D\uDC41
                             </button>
                           </td>
                         </tr>
