@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ModalFormulario from "./ModalFormularioUsuario";
+import ModalFormulario from "./ModalEnviarUsuario";
 
 function Table({ reload }) {
   const [data, setData] = useState([]);
