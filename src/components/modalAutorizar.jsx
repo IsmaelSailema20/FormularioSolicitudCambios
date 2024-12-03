@@ -12,6 +12,11 @@ const ModalComponent = ({ closeModal, id }) => {
     TIP_CAM: "",
     ESTD_SOL: "",
   });
+  const [estadoCambio, setEstadoCambio] = useState(""); // "Aprobado" o "Rechazado"
+  const [descripcionEstado, setDescripcionEstado] = useState("");
+  const [validadoPor, setValidadoPor] = useState("");
+  const [autorizadoPor, setAutorizadoPor] = useState("");
+  const [idCam, setIdCam] = useState(null); // Constante para almacenar ID_CAM
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +26,7 @@ const ModalComponent = ({ closeModal, id }) => {
         );
         const data = await response.json();
         setFormData({
+          id:  data.ID_CAM,
           FEC_SOL: data.FEC_SOL,
           NOM_SOL: data.NOM_SOL,
           ARE_CAM: data.ARE_CAM,
@@ -29,7 +35,7 @@ const ModalComponent = ({ closeModal, id }) => {
           TIP_CAM: data.TIP_CAM,
           ESTD_SOL: data.ESTD_SOL,
         });
-        console.log(data);
+        setIdCam(data.ID_CAM); // Guardar ID_CAM en la constante
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -37,6 +43,42 @@ const ModalComponent = ({ closeModal, id }) => {
 
     if (id) fetchData();
   }, [id]);
+
+  const handleGuardar = async () => {
+    if (!descripcionEstado || !validadoPor || !autorizadoPor || !estadoCambio) {
+      alert("Todos los campos son obligatorios.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("descripcionEstado", descripcionEstado);
+    formData.append("validadoPor", validadoPor);
+    formData.append("autorizadoPor", autorizadoPor);
+    formData.append("estadoCambio", estadoCambio);
+    formData.append("id", idCam);
+    try {
+      const response = await fetch(
+        `http://localhost/FormularioSolicitudCambios/src/models/guardarEstado.php`,
+        {
+          method: "POST",
+          body: formData, // Enviar el formulario
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error al realizar la solicitud");
+      }
+
+      const data = await response.json();
+      console.log("Respuesta del servidor:", data);
+      alert("Datos guardados con éxito.");
+      closeModal();
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+      alert("Ocurrió un error al guardar los datos.");
+    }
+  };
 
   return (
     <div>
@@ -49,14 +91,13 @@ const ModalComponent = ({ closeModal, id }) => {
                   <h2 className="text-xl font-bold tracking-tight">
                     Confirmación de Cambios de Software
                   </h2>
-                 
                 </div>
                 <h2
-                    className="text-lg ml-14  p-2 w-60 font-bold opacity-100"
-                    id="fecha"
-                  >
-                    {formData.FEC_SOL || "Cargando..."}
-                  </h2>
+                  className="text-lg ml-14  p-2 w-60 font-bold opacity-100"
+                  id="fecha"
+                >
+                  {formData.FEC_SOL || "Cargando..."}
+                </h2>
                 <button
                   onClick={closeModal}
                   className="hover:bg-white/20 p-2 rounded-full transition-colors"
@@ -154,7 +195,7 @@ const ModalComponent = ({ closeModal, id }) => {
                 ></textarea>
               </div>
               <h2 className="text-white font-bold mt-2 text-md leading-tight mb-4">
-                INFORMACIÓN DE APROVACIÓN
+                INFORMACIÓN DE APROBACIÓN
               </h2>
               <div className="mb-4 ">
                 <label className="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -164,7 +205,9 @@ const ModalComponent = ({ closeModal, id }) => {
                   <label className="inline-flex items-center">
                     <input
                       type="radio"
-                      name="tipoCambio"
+                      name="estadoCambio"
+                      value="Rechazado"
+                      onChange={(e) => setEstadoCambio(e.target.value)}
                       className="form-radio h-5 w-5 text-indigo-600"
                     />
                     <span className="ml-2 dark:text-gray-300 text-sm">
@@ -174,11 +217,13 @@ const ModalComponent = ({ closeModal, id }) => {
                   <label className="inline-flex items-center">
                     <input
                       type="radio"
-                      name="tipoCambio"
+                      name="estadoCambio"
+                      value="Aprobado"
+                      onChange={(e) => setEstadoCambio(e.target.value)}
                       className="form-radio h-5 w-5 text-indigo-600"
                     />
                     <span className="ml-2 dark:text-gray-300 text-sm">
-                      Aprovado
+                      Aprobado
                     </span>
                   </label>
                 </div>
@@ -189,10 +234,8 @@ const ModalComponent = ({ closeModal, id }) => {
                   Descripción del estado de la solicitud
                 </label>
                 <textarea
-                  disabled={
-                    formData.ESTD_SOL === "Aprovado" ||
-                    formData.ESTD_SOL === "Rechazado"
-                  }
+                  value={descripcionEstado}
+                  onChange={(e) => setDescripcionEstado(e.target.value)}
                   className="w-full h-28 px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"
                 ></textarea>
               </div>
@@ -203,9 +246,11 @@ const ModalComponent = ({ closeModal, id }) => {
                   </label>
                   <input
                     disabled={
-                      formData.ESTD_SOL === "Aprovado" ||
+                      formData.ESTD_SOL === "Aprobado" ||
                       formData.ESTD_SOL === "Rechazado"
                     }
+                    value={validadoPor}
+                    onChange={(e) => setValidadoPor(e.target.value)}
                     className="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"
                   />
                 </div>
@@ -215,18 +260,22 @@ const ModalComponent = ({ closeModal, id }) => {
                   </label>
                   <input
                     disabled={
-                      formData.ESTD_SOL === "Aprovado" ||
+                      formData.ESTD_SOL === "Aprobado" ||
                       formData.ESTD_SOL === "Rechazado"
                     }
+                    value={autorizadoPor}
+                    onChange={(e) => setAutorizadoPor(e.target.value)}
                     className="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"
                   />
                 </div>
               </div>
               <div className="flex items-center mb-2 justify-center">
                 <button
+                  type="submit"
+                  onClick={handleGuardar}
                   style={{
                     display:
-                      formData.ESTD_SOL === "Aprovado" ||
+                      formData.ESTD_SOL === "Aprobado" ||
                       formData.ESTD_SOL === "Rechazado"
                         ? "none"
                         : "block",
