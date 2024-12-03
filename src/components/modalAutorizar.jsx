@@ -3,7 +3,7 @@ import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 const ModalComponent = ({ closeModal }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const estado = "Enviado";
     const handleModal = (open) => {
         setIsModalOpen(open);
     };
@@ -37,39 +37,39 @@ const ModalComponent = ({ closeModal }) => {
                             <div className="grid md:grid-cols-2 p-3 gap-6">
                                 <div class="mb-4">
                                     <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Nombre del solicitante</label>
-                                    <input class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
+                                    <input disabled class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
                                 </div>
 
                                 <div class="mb-4">
                                     <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Área o dependencia</label>
-                                    <input class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
+                                    <input disabled class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
                                 </div>
                             </div>
                             <div class=" p-2 mb-4">
                                 <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Email de contacto</label>
-                                <input type="email" name="email" id='email' class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
+                                <input disabled type="email" name="email" id='email' class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
                             </div>
 
                             <div class="mb-4 ">
                                 <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Tipo de cambio</label>
                                 <div class="mt-2 flex justify-center space-x-4">
                                     <label class="inline-flex items-center">
-                                        <input type="radio" name="tipoCambio" className="form-radio h-5 w-5 text-indigo-600" />
+                                        <input disabled type="radio" name="tipoCambio" className="form-radio h-5 w-5 text-indigo-600" />
                                         <span class="ml-2 dark:text-gray-300 text-sm">Estándar</span>
                                     </label>
                                     <label class="inline-flex items-center">
-                                        <input type="radio" name="tipoCambio" className="form-radio h-5 w-5 text-indigo-600" />
+                                        <input disabled type="radio" name="tipoCambio" className="form-radio h-5 w-5 text-indigo-600" />
                                         <span class="ml-2 dark:text-gray-300 text-sm">Normal</span>
                                     </label>
                                     <label class="inline-flex items-center">
-                                        <input type="radio" name="tipoCambio" className="form-radio h-5 w-5 text-indigo-600" />
+                                        <input disabled type="radio" name="tipoCambio" className="form-radio h-5 w-5 text-indigo-600" />
                                         <span class="ml-2 dark:text-gray-300 text-sm">Emergente</span>
                                     </label>
                                 </div>
                             </div>
                             <div class="p-2 mb-4">
                                 <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Descripción del cambio solicitado</label>
-                                <textarea class="w-full h-28 px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"></textarea>
+                                <textarea disabled class="w-full h-28 px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"></textarea>
                             </div>
                             <h2 class="text-white font-bold mt-2 text-md leading-tight mb-4">INFORMACIÓN DE APROVACIÓN</h2>
                             <div class="mb-4 ">
@@ -88,20 +88,20 @@ const ModalComponent = ({ closeModal }) => {
 
                             <div class=" p-2 mb-4">
                                 <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Descripción del estado de la solicitud</label>
-                                <textarea class="w-full h-28 px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"></textarea>
+                                <textarea disabled={estado === "Aprovado" || estado === 'Rechazado'} class="w-full h-28 px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"></textarea>
                             </div>
                             <div class="grid p-2 grid-cols-2 gap-4 mb-6">
                                 <div>
                                     <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Validado por</label>
-                                    <input class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
+                                    <input disabled={estado === "Aprovado" || estado === 'Rechazado'} class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
                                 </div>
                                 <div>
                                     <label class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Autorizado por</label>
-                                    <input class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
+                                    <input disabled={estado === "Aprovado" || estado === 'Rechazado'} class="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2" />
                                 </div>
                             </div>
                             <div class="flex items-center mb-2 justify-center">
-                                <button class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">
+                                <button style={{ display: estado === "Aprovado" || estado === "Rechazado" ? "none" : "block" }} class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">
                                     Guardar
                                 </button>
                                 <button onClick={closeModal}
@@ -112,8 +112,9 @@ const ModalComponent = ({ closeModal }) => {
                         </div>
                     </div>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
 

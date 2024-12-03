@@ -15,7 +15,7 @@ const TableForAdmin = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        "http://localhost:8081/FormularioSolicitudCambios/src/models/obtenerInfoForm.php"
+        "http://localhost/FormularioSolicitudCambios/src/models/obtenerInfoForm.php"
       ); 
       const result = await response.json();
       setData(result);
