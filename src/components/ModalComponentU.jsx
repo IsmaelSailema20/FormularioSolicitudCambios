@@ -240,10 +240,7 @@ const ModalComponentU = ({ closeModal, id }) => {
                       name="estadoCambio"
                       value="Rechazado"
                       checked={estadoCambio === "Rechazado"}
-                      disabled={
-                        formData.ESTD_SOL === "Aprobado" ||
-                        formData.ESTD_SOL === "Rechazado"
-                      }
+                      disabled
                       onChange={(e) => setEstadoCambio(e.target.value)}
                       className="form-radio h-5 w-5 text-indigo-600"
                     />
@@ -257,10 +254,7 @@ const ModalComponentU = ({ closeModal, id }) => {
                       name="estadoCambio"
                       value="Aprobado"
                       checked={estadoCambio === "Aprobado"}
-                      disabled={
-                        formData.ESTD_SOL === "Aprobado" ||
-                        formData.ESTD_SOL === "Rechazado"
-                      }
+                      disabled
                       onChange={(e) => setEstadoCambio(e.target.value)}
                       className="form-radio h-5 w-5 text-indigo-600"
                     />
@@ -276,10 +270,7 @@ const ModalComponentU = ({ closeModal, id }) => {
                   Descripción del estado de la solicitud
                 </label>
                 <textarea
-                  disabled={
-                    formData.ESTD_SOL === "Aprobado" ||
-                    formData.ESTD_SOL === "Rechazado"
-                  }
+                  disabled
                   value={descripcionEstado}
                   onChange={(e) => setDescripcionEstado(e.target.value)}
                   className="w-full h-28 px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"
@@ -291,10 +282,7 @@ const ModalComponentU = ({ closeModal, id }) => {
                     Validado por
                   </label>
                   <input
-                    disabled={
-                      formData.ESTD_SOL === "Aprobado" ||
-                      formData.ESTD_SOL === "Rechazado"
-                    }
+                    disabled
                     value={validadoPor}
                     onChange={(e) => setValidadoPor(e.target.value)}
                     className="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"
@@ -305,10 +293,7 @@ const ModalComponentU = ({ closeModal, id }) => {
                     Autorizado por
                   </label>
                   <input
-                    disabled={
-                      formData.ESTD_SOL === "Aprobado" ||
-                      formData.ESTD_SOL === "Rechazado"
-                    }
+                    disabled
                     value={autorizadoPor}
                     onChange={(e) => setAutorizadoPor(e.target.value)}
                     className="w-full px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2"
