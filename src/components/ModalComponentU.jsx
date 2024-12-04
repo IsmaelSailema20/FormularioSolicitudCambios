@@ -2,7 +2,7 @@ import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 import React, { useEffect, useState } from "react";
 
-const ModalComponent = ({ closeModal, id }) => {
+const ModalComponentU = ({ closeModal, id }) => {
   const [formData, setFormData] = useState({
     FEC_SOL: "",
     NOM_SOL: "",
@@ -317,20 +317,6 @@ const ModalComponent = ({ closeModal, id }) => {
               </div>
               <div className="flex items-center mb-2 justify-center">
                 <button
-                  type="submit"
-                  onClick={handleGuardar}
-                  style={{
-                    display:
-                      formData.ESTD_SOL === "Aprobado" ||
-                      formData.ESTD_SOL === "Rechazado"
-                        ? "none"
-                        : "block",
-                  }}
-                  className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm"
-                >
-                  Guardar
-                </button>
-                <button
                   onClick={closeModal}
                   className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm"
                 >
@@ -345,4 +331,4 @@ const ModalComponent = ({ closeModal, id }) => {
   );
 };
 
-export default ModalComponent;
+export default ModalComponentU;

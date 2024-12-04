@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
-import {CheckCircleIcon,XCircleIcon} from "@heroicons/react/24/solid";
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 const ModalEnviarUsuario = ({ isOpen, onClose, onFormSubmit }) => {
   const today = new Date().toISOString().split("T")[0];
@@ -33,8 +33,7 @@ const ModalEnviarUsuario = ({ isOpen, onClose, onFormSubmit }) => {
       newErrors.dependencia = "Área o dependencia requerida";
     if (!formData.descripcion)
       newErrors.descripcion = "Descripción del cambio requerida";
-    if (!formData.email)
-      newErrors.email = "Correo electrónico requerido";
+    if (!formData.email) newErrors.email = "Correo electrónico requerido";
     return newErrors;
   };
 
@@ -53,7 +52,7 @@ const ModalEnviarUsuario = ({ isOpen, onClose, onFormSubmit }) => {
       const formBody = new URLSearchParams(formData).toString();
 
       const response = await fetch(
-        "http://localhost/models/guardar.php",
+        "http://localhost:8081/FormularioSolicitudCambios/src/models/guardar.php",
         {
           method: "POST",
           headers: {
@@ -208,9 +207,7 @@ const ModalEnviarUsuario = ({ isOpen, onClose, onFormSubmit }) => {
                     required
                   />
                   {errors.email && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.email}
-                    </p>
+                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
                   )}
                 </div>
 
@@ -220,7 +217,7 @@ const ModalEnviarUsuario = ({ isOpen, onClose, onFormSubmit }) => {
                       Tipo de Cambio
                     </h2>
                     <div className="mt-2 flex justify-center space-x-4">
-                      {["Estándar", "Normal", "Emergente"].map((type) => (
+                      {["Estándar", "Normal", "Urgente"].map((type) => (
                         <label
                           key={type}
                           className="inline-flex items-center cursor-pointer"
@@ -233,7 +230,9 @@ const ModalEnviarUsuario = ({ isOpen, onClose, onFormSubmit }) => {
                             onChange={handleInputChange}
                             className="form-radio h-4 w-4 text-sky-600 border-gray-300 focus:ring-sky-500"
                           />
-                          <span className="ml-2 text-gray-700 dark:text-gray-300">{type}</span>
+                          <span className="ml-2 text-gray-700 dark:text-gray-300">
+                            {type}
+                          </span>
                         </label>
                       ))}
                     </div>

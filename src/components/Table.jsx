@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from "react";
 import ModalFormulario from "./ModalEnviarUsuario";
+import ModalComponentU from "./ModalComponentU";
 
 function Table({ reload }) {
   const [data, setData] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalROpen, setModalROpen] = useState(false);
+  const [selectedCode, setSelectedCode] = useState(null); // Estado para almacenar el código seleccionado
 
+  const openModal = (id) => {
+    setModalROpen(id); // Guardar el ID del elemento seleccionado
+  };
+
+  const closeModal = () => {
+    setModalROpen(false);
+    setSelectedCode(null); // Limpia el código seleccionado al cerrar el modal
+  };
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -107,25 +118,10 @@ function Table({ reload }) {
                           <td className="p-3 pl-0">{item.FEC_SOL}</td>
                           <td className="p-3 pr-0 text-end">
                             <button
-                              className="ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center"
-                              aria-label="Detalle de solicitud"
+                              onClick={() => openModal(item.ID_CAM)} // Pasar ID_CAM al abrir el modal
+                              className="ml-10 relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center"
                             >
-                              <span className="flex items-center justify-center p-0 m-0 leading-none shrink-0">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="1.5"
-                                  stroke="currentColor"
-                                  className="w-4 h-4"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                                  />
-                                </svg>
-                              </span>
+                              \uD83D\uDC41
                             </button>
                           </td>
                         </tr>
@@ -154,6 +150,10 @@ function Table({ reload }) {
         onClose={() => setModalOpen(false)}
         onFormSubmit={fetchData}
       />
+
+      {isModalROpen && (
+        <ModalComponentU closeModal={closeModal} id={isModalROpen} />
+      )}
     </div>
   );
 }

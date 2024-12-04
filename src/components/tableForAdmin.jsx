@@ -9,7 +9,6 @@ const TableForAdmin = () => {
   const openModal = (id) => {
     setIsModalOpen(id); // Guardar el ID del elemento seleccionado
   };
-  
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -19,7 +18,7 @@ const TableForAdmin = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        "http://localhost/FormularioSolicitudCambios/src/models/obtenerInfoForm.php"
+        "http://localhost:8081/FormularioSolicitudCambios/src/models/obtenerInfoForm.php"
       );
       const result = await response.json();
       setData(result);
@@ -78,10 +77,13 @@ const TableForAdmin = () => {
                               ? `${item.DES_CAM.substring(0, 80)}...`
                               : item.DES_CAM}
                           </td>
+
                           <td className="p-3 pl-0">
                             <span
                               className={`text-center align-baseline inline-flex px-4 py-3 mr-auto items-center font-semibold text-[.95rem] leading-none rounded-lg ${
-                                item.ESTD_SOL === "Enviado"
+                                item.TIP_CAM === "Urgente"
+                                  ? "text-orange-700 bg-orange-100"
+                                  : item.ESTD_SOL === "Enviado"
                                   ? "text-blue-700 bg-blue-100"
                                   : item.ESTD_SOL === "Aprobado"
                                   ? "text-green-700 bg-green-100"
@@ -90,9 +92,12 @@ const TableForAdmin = () => {
                                   : "text-gray-500 bg-gray-200"
                               }`}
                             >
-                              {item.ESTD_SOL || "Pendiente"}
+                              {item.ESTD_SOL === "Enviado"
+                                ? "Pendiente"
+                                : item.ESTD_SOL || "Pendiente"}
                             </span>
                           </td>
+
                           <td className="p-3 pl-0">{item.FEC_SOL}</td>
                           <td className="p-3 pr-0 text-end">
                             <button
