@@ -219,7 +219,7 @@ const ModalEnviarUsuario = ({ isOpen, onClose, onFormSubmit }) => {
                     <h2 className="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300">
                       Tipo de Cambio
                     </h2>
-                    <div className="flex space-x-4">
+                    <div className="mt-2 flex justify-center space-x-4">
                       {["Estándar", "Normal", "Emergente"].map((type) => (
                         <label
                           key={type}
@@ -263,7 +263,7 @@ const ModalEnviarUsuario = ({ isOpen, onClose, onFormSubmit }) => {
                     )}
                   </div>
                 </div>
-                <div className="mt-6 flex justify-end space-x-4">
+                <div className="mt-6 flex justify-center space-x-4">
                   <button
                     type="button"
                     className="px-6 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition"
