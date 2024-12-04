@@ -11,12 +11,16 @@ const ModalComponent = ({ closeModal, id }) => {
     DES_CAM: "",
     TIP_CAM: "",
     ESTD_SOL: "",
+    DES_EST_CAM: "",
+    NOM_VAL: "",
+    NOM_AUT: "",
+    ESTD_SOL: "",
   });
-  const [estadoCambio, setEstadoCambio] = useState(""); 
+  const [estadoCambio, setEstadoCambio] = useState("");
   const [descripcionEstado, setDescripcionEstado] = useState("");
   const [validadoPor, setValidadoPor] = useState("");
   const [autorizadoPor, setAutorizadoPor] = useState("");
-  const [idCam, setIdCam] = useState(null); /
+  const [idCam, setIdCam] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
@@ -35,7 +39,16 @@ const ModalComponent = ({ closeModal, id }) => {
           DES_CAM: data.DES_CAM,
           TIP_CAM: data.TIP_CAM,
           ESTD_SOL: data.ESTD_SOL,
+          DES_EST_CAM: data.DES_EST_CAM,
+          NOM_VAL: data.NOM_VAL,
+          NOM_AUT: data.NOM_AUT,
         });
+
+        // Inicializar valores en los inputs si existen
+        setDescripcionEstado(data.DES_EST_CAM || "");
+        setValidadoPor(data.NOM_VAL || "");
+        setAutorizadoPor(data.NOM_AUT || "");
+        setEstadoCambio(data.ESTD_SOL || "");
         setIdCam(data.ID_CAM); // Guardar ID_CAM en la constante
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -226,6 +239,7 @@ const ModalComponent = ({ closeModal, id }) => {
                       type="radio"
                       name="estadoCambio"
                       value="Rechazado"
+                      checked={estadoCambio === "Rechazado"}
                       disabled={
                         formData.ESTD_SOL === "Aprobado" ||
                         formData.ESTD_SOL === "Rechazado"
@@ -242,6 +256,7 @@ const ModalComponent = ({ closeModal, id }) => {
                       type="radio"
                       name="estadoCambio"
                       value="Aprobado"
+                      checked={estadoCambio === "Aprobado"}
                       disabled={
                         formData.ESTD_SOL === "Aprobado" ||
                         formData.ESTD_SOL === "Rechazado"
